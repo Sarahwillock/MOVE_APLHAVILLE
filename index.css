@@ -1,0 +1,52 @@
+import { Link, useLocation } from 'react-router-dom';
+import { Calendar, Mic2, Ticket, MapPin, LayoutGrid, Home } from 'lucide-react';
+import { cn } from '@/src/lib/utils';
+
+const navItems = [
+  { name: 'Início', path: '/move', icon: Home },
+  { name: 'Agenda', path: '/move/full-schedule', icon: Calendar },
+  { name: 'Eventos MOVE', path: '/move/june', icon: LayoutGrid },
+  { name: 'Líderes da Casa', path: '/move/leaders', icon: Mic2 },
+  { name: 'GCs', path: '/move/gcs', icon: Ticket },
+  { name: 'Local', path: '/move/local', icon: MapPin },
+];
+
+export default function Sidebar() {
+  const location = useLocation();
+
+  return (
+    <aside className="fixed left-0 z-40 hidden h-screen w-64 flex-col border-r-2 border-move-blue bg-neutral-900 font-bold uppercase lg:flex">
+      <div className="border-b-2 border-move-blue/20 p-6">
+        <Link to="/" className="mb-3 block text-[10px] tracking-[0.25em] text-white/45 hover:text-white">← VOLTAR AO PORTAL</Link>
+        <div className="text-3xl font-black text-white">MOVE 2026</div>
+        <a
+          href="https://www.instagram.com/move.alphaville/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-1 block text-[10px] tracking-widest text-move-blue transition-colors hover:text-move-pink"
+        >
+          @MOVE.ALPHAVILLE
+        </a>
+      </div>
+      <nav className="mt-4 flex-1">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+          return (
+            <Link
+              key={item.name}
+              to={item.path}
+              className={cn(
+                'flex items-center gap-4 p-4 transition-colors',
+                isActive ? 'bg-move-blue text-white brightness-125' : 'text-neutral-400 hover:bg-move-pink hover:text-white'
+              )}
+            >
+              <Icon size={20} />
+              <span>{item.name}</span>
+            </Link>
+          );
+        })}
+      </nav>
+    </aside>
+  );
+}
